@@ -1,6 +1,7 @@
 type Query {
   customerByFirstOrLastName(name: String!): [Customer]
   customerByCompany(company: String!): [Customer]
+  sortCustomers(sortBy: SortBy!, orderBy: OrderBy!):[Customer!]
 }
 
 type Customer {
@@ -9,4 +10,16 @@ type Customer {
   lastName: String!
   company: String!
 }
+
+enum OrderBy {
+  ASC
+  DSC
+}
+
+enum SortBy {
+   COMPANY
+   FIRSTNAME
+   LASTNAME
+}
+
 

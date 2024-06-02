@@ -16,9 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CustomerResolverTests {
 
     @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
     private WebGraphQlTester graphQlTester;
 
     @Test
@@ -35,7 +32,7 @@ class CustomerResolverTests {
                 """;
 
         // Execute the GraphQL query
-        List<Customer> customerList = this.graphQlTester.document(query)
+        List<Customer> customerList = graphQlTester.document(query)
                 .execute()
                 .path("customerByFirstOrLastName")
                 .entityList(Customer.class)
@@ -46,12 +43,12 @@ class CustomerResolverTests {
         // Check first names (case-insensitive)
         assertTrue(customerList.stream()
                 .anyMatch(c -> c.getFirstName().equalsIgnoreCase("John") &&
-                c.getLastName().equalsIgnoreCase("Smith"))
-                );
+                        c.getLastName().equalsIgnoreCase("Smith"))
+        );
         assertTrue(customerList.stream()
                 .anyMatch(c -> c.getFirstName().equalsIgnoreCase("John") &&
-                c.getLastName().equalsIgnoreCase("Doe"))
-                );
+                        c.getLastName().equalsIgnoreCase("Doe"))
+        );
 
         assertTrue(customerList.stream()
                 .anyMatch(c -> c.getFirstName().equalsIgnoreCase("John") &&
@@ -76,7 +73,7 @@ class CustomerResolverTests {
                 """;
 
         // Execute the GraphQL query
-        List<Customer> customerList = this.graphQlTester.document(query)
+        List<Customer> customerList = graphQlTester.document(query)
                 .execute()
                 .path("customerByCompany")
                 .entityList(Customer.class)
@@ -87,5 +84,74 @@ class CustomerResolverTests {
         assertEquals(8, customerList.stream()
                 .filter(c -> c.getCompany().equals("Acme Corp")).count());
 
+    }
+
+    @Test
+    void testSortCustomerByFirstNameASC() {
+        String query = """
+                    query customer {
+                        sortCustomers(sortBy: FIRSTNAME, orderBy: ASC) {
+                        firstName
+                      }
+                    }
+                """;
+
+        // Execute the GraphQL query
+        List<Customer> customerList = graphQlTester.document(query)
+                .execute()
+                .path("sortCustomers")
+                .entityList(Customer.class)
+                .get();
+
+        assertEquals(20, customerList.size());
+        assertEquals("Amelia", customerList.get(0).getFirstName());
+        assertEquals("Ava", customerList.get(1).getFirstName());
+        assertEquals("William", customerList.get(19).getFirstName());
+    }
+
+    @Test
+    void testSortCustomerByLastNameDSC() {
+        String query = """
+                    query customer {
+                        sortCustomers(sortBy: LASTNAME, orderBy: DSC) {
+                        lastName
+                      }
+                    }
+                """;
+
+        // Execute the GraphQL query
+        List<Customer> customerList = graphQlTester.document(query)
+                .execute()
+                .path("sortCustomers")
+                .entityList(Customer.class)
+                .get();
+
+        assertEquals(20, customerList.size());
+        assertEquals("White", customerList.get(0).getLastName());
+        assertEquals("Thomas", customerList.get(1).getLastName());
+        assertEquals("Clark", customerList.get(19).getLastName());
+    }
+
+    @Test
+    void testSortCustomerByCompanyAsc() {
+        String query = """
+                    query customer {
+                        sortCustomers(sortBy: COMPANY, orderBy: ASC) {
+                        company
+                      }
+                    }
+                """;
+
+        // Execute the GraphQL query
+        List<Customer> customerList = graphQlTester.document(query)
+                .execute()
+                .path("sortCustomers")
+                .entityList(Customer.class)
+                .get();
+
+        assertEquals(20, customerList.size());
+        assertEquals("Acme Corp", customerList.get(0).getCompany());
+        assertEquals("Acme Corp", customerList.get(1).getCompany());
+        assertEquals("Weyland-Yutani Corp", customerList.get(19).getCompany());
     }
 }
