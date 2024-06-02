@@ -5,8 +5,10 @@ import { gql, useQuery } from 'urql'
 const SORT_QUERY = gql`
     {
         sortCustomers(sortBy: FIRSTNAME, orderBy: ASC) {
+        id
         firstName
         lastName
+        company
       }
     }
 `;
@@ -28,3 +30,4 @@ const CustomerList = () => {
 }
 
 export default CustomerList
+

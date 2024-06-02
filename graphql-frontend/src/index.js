@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/index.css';
 import App from './components/App';
+import { BrowserRouter } from 'react-router-dom';
 
 import { Provider, createClient, fetchExchange } from 'urql'
 import { devtoolsExchange } from '@urql/devtools';
@@ -16,9 +17,11 @@ const root = createRoot(container); // Create a root
 
 root.render(
   <React.StrictMode>
-  <Provider value={client}>
-    <App />
+   <BrowserRouter>
+    <Provider value={client}>
+        <App />
     </Provider>
+   </BrowserRouter>
   </React.StrictMode>
 );
 
