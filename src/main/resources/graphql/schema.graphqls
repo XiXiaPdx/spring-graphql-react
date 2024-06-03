@@ -1,7 +1,8 @@
 type Query {
   customerByFirstOrLastName(name: String!): [Customer]
   customerByCompany(company: String!): [Customer]
-  sortCustomers(sortBy: SortBy!, orderBy: OrderBy!):[Customer!]
+  sortCustomers(sortBy: SortBy!, orderBy: OrderBy!):[Customer]
+  allCompanies: [String]
 }
 
 type Customer {

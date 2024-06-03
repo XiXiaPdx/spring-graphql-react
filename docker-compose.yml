@@ -3,15 +3,3 @@ services:
     build: .
     ports:
       - "8080:8080"
-#  mysql:
-#    image: mysql:latest
-#    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root
-#      MYSQL_USER: mysql
-#      MYSQL_PASSWORD: mysql
-#      MYSQL_DATABASE: customers
-#    ports:
-#      - 3306:3306
-#    volumes:
-#      - ./init_mysql.sql:/docker-entrypoint-initdb.d/init_mysql.sql

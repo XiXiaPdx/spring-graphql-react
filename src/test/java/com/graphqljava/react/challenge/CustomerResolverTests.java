@@ -1,7 +1,6 @@
 package com.graphqljava.react.challenge;
 
 import com.graphqljava.react.challenge.model.Customer;
-import com.graphqljava.react.challenge.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +30,6 @@ class CustomerResolverTests {
                 }
                 """;
 
-        // Execute the GraphQL query
         List<Customer> customerList = graphQlTester.document(query)
                 .execute()
                 .path("customerByFirstOrLastName")
@@ -40,7 +38,6 @@ class CustomerResolverTests {
 
         assertEquals(4, customerList.size());
 
-        // Check first names (case-insensitive)
         assertTrue(customerList.stream()
                 .anyMatch(c -> c.getFirstName().equalsIgnoreCase("John") &&
                         c.getLastName().equalsIgnoreCase("Smith"))
@@ -72,7 +69,6 @@ class CustomerResolverTests {
                 }
                 """;
 
-        // Execute the GraphQL query
         List<Customer> customerList = graphQlTester.document(query)
                 .execute()
                 .path("customerByCompany")
@@ -96,7 +92,6 @@ class CustomerResolverTests {
                     }
                 """;
 
-        // Execute the GraphQL query
         List<Customer> customerList = graphQlTester.document(query)
                 .execute()
                 .path("sortCustomers")
@@ -119,7 +114,6 @@ class CustomerResolverTests {
                     }
                 """;
 
-        // Execute the GraphQL query
         List<Customer> customerList = graphQlTester.document(query)
                 .execute()
                 .path("sortCustomers")
@@ -142,7 +136,6 @@ class CustomerResolverTests {
                     }
                 """;
 
-        // Execute the GraphQL query
         List<Customer> customerList = graphQlTester.document(query)
                 .execute()
                 .path("sortCustomers")
