@@ -1,9 +1,8 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import CustomerList from './CustomerList'
 import { gql, useQuery } from 'urql'
-
-
 
 const SORT_QUERY = gql`
     query sortedCustomers($sortBy: SortBy!, $orderBy: OrderBy!){
@@ -11,14 +10,20 @@ const SORT_QUERY = gql`
         id
         firstName
         lastName
-        company
       }
     }
 `;
 
 const SortedCustomers = () => {
-    const [sortBy, setSortBy] = useState("COMPANY");
-    const [orderBy, setOrderBy] = useState("ASC");
+    const [sortByOrderByParams, setSortByOrderByParams] = useSearchParams();
+    const [sortBy, setSortBy] = useState(sortByOrderByParams.get('sortBy') || "COMPANY");
+    const [orderBy, setOrderBy] = useState(sortByOrderByParams.get('orderBy') || "ASC");
+
+    useEffect(() => {
+        setSortByOrderByParams({sortBy, orderBy})}
+        , [sortBy, orderBy, setSortByOrderByParams]
+        )
+
     const handleChange = (event) => {
         const [newSortBy, newOrderBy] = event.target.value.split("-")
         setSortBy(newSortBy)
@@ -31,18 +36,18 @@ const SortedCustomers = () => {
       if (fetching) return <div>Fetching</div>
       if (error) return <div>Error</div>
 
-       const customersToRender = data.sortCustomers
+       const customersToRender = data.sortCustomers.slice(0,10)
 
     return (
        <div>
       <form>
         <select value={`${sortBy}-${orderBy}`} onChange={handleChange}>
-          <option value="FIRSTNAME-ASC">First name, A->Z</option>
-          <option value="FIRSTNAME-DSC">First name, Z->A</option>
-          <option value="LASTNAME-ASC">Last name, A->Z</option>
-          <option value="LASTNAME-DSC">Last name, Z->A</option>
-         <option value="COMPANY-ASC">Company, A->Z</option>
-           <option value="COMPANY-DSC">Company, Z->A</option>
+          <option value="FIRSTNAME-ASC">Sort by First name, A->Z</option>
+          <option value="FIRSTNAME-DSC">Sort by First name, Z->A</option>
+          <option value="LASTNAME-ASC">Sort by Last name, A->Z</option>
+          <option value="LASTNAME-DSC">Sort by Last name, Z->A</option>
+         <option value="COMPANY-ASC">Sort by Company, A->Z</option>
+           <option value="COMPANY-DSC">Sort by Company, Z->A</option>
         </select>
       </form>
 
