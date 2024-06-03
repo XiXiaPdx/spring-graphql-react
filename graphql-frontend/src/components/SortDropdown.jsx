@@ -14,14 +14,14 @@ const SORT_QUERY = gql`
     }
 `;
 
-const SortedCustomers = () => {
+const SortCustomers = () => {
     const [sortByOrderByParams, setSortByOrderByParams] = useSearchParams();
     const [sortBy, setSortBy] = useState(sortByOrderByParams.get('sortBy') || "COMPANY");
     const [orderBy, setOrderBy] = useState(sortByOrderByParams.get('orderBy') || "ASC");
 
     useEffect(() => {
         setSortByOrderByParams({sortBy, orderBy})}
-        , [sortBy, orderBy, setSortByOrderByParams]
+        , [sortBy, orderBy]
         )
 
     const handleChange = (event) => {
@@ -56,4 +56,4 @@ const SortedCustomers = () => {
     )
 }
 
-export default SortedCustomers
+export default SortCustomers

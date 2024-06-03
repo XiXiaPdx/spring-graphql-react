@@ -1,12 +1,12 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CustomerList from './CustomerList'
-import SortedCustomers from './SortDropdown'
+import SortCustomers from './SortDropdown'
 
 function CombinedComponent() {
   return (
     <>
-      <SortedCustomers />
+      <SortCustomers />
     </>
   );
 }
