@@ -3,3 +3,11 @@ services:
     build: .
     ports:
       - "8080:8080"
+  graphql-frontend: # New service for the React frontend
+    build:
+      context: ./graphql-frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - my-spring-app
